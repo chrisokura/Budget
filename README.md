@@ -1,2 +1,3 @@
+# JAVA
 # Budget
-Writing a budget report using JAVA
+Writing a budget report in JAVA
