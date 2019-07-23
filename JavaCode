@@ -1,0 +1,95 @@
+// Chris Okura
+// 7/21/19
+// CSE142
+// This program uses returns, for loops, class constants, Scanner, and if/else
+// statements to right a budget report. Expenses can be calculated monthly or daily.
+//
+
+import java.util.*;
+
+public class Budget {
+   public static final double NUM_DAYS_MONTH = 31.0;
+
+   public static void main(String[] args) {
+      Scanner console = new Scanner(System.in);
+   
+      giveIntro();
+      
+      double totalIncome = income(console);
+      double totalExpenses = expenses(console);
+      
+      reportResults(totalIncome, totalExpenses);
+   }
+   
+   public static void giveIntro() {
+      System.out.println("This program asks for your monthly income and");
+      System.out.println("expenses, then tells you your net monthly income.");
+      System.out.println(" ");
+   }
+   
+   public static double income(Scanner console) {
+      System.out.print("How many categories of income? ");
+      int numberOfCategories = console.nextInt();
+      
+      double totalIncome = 0.00;
+      for (int i = 0; i < numberOfCategories; i++) {
+         System.out.print("   Next income amount? $");
+         double incomeAmount = console.nextDouble();
+         totalIncome += incomeAmount;
+      }  
+      System.out.println(" ");
+      return totalIncome;
+   }
+   
+   public static double expenses(Scanner console) {
+      System.out.print("Enter 1) monthly or 2) daily expenses? ");
+      int freqOfExpenses = console.nextInt();
+      System.out.print("How many categories of expenses? ");
+      int categoriesOfExpenses = console.nextInt();
+     
+      double totalExpenses = 0.00;
+      for (int i = 0; i < categoriesOfExpenses; i++) {
+         System.out.print("   Next expense amount? $");
+         double expenseAmount = console.nextDouble();
+         if (freqOfExpenses == 1) {
+            totalExpenses += expenseAmount;
+         } else {
+            totalExpenses += expenseAmount * NUM_DAYS_MONTH;
+         }
+      }
+      System.out.println(" ");
+      return totalExpenses;      
+   }
+   
+   public static void reportResults(double totalIncome, double totalExpenses) {
+      System.out.println("Total income = $" + round2(totalIncome) + " ($" + 
+            round2(totalIncome/NUM_DAYS_MONTH) + "/day)");
+      System.out.println("Total expenses = $" + round2(totalExpenses) + " ($" +
+            round2(totalExpenses/NUM_DAYS_MONTH) + "/day)");
+      System.out.println("");
+      
+      if ((totalIncome - totalExpenses) > 0) {
+         System.out.println("You earned $" + round2(totalIncome- totalExpenses) + 
+               " more than you spent this month.");
+      } else {
+         System.out.println("You spent $" + round2(totalExpenses - totalIncome) + 
+               " more than you earned this month.");
+      }
+      System.out.print("You're a ");        
+      if ((totalIncome - totalExpenses) > 250) {
+         System.out.println("big saver.");
+      } else if ((totalIncome - totalExpenses) > 0) {
+         System.out.println("saver.");
+      } else if ((totalExpenses - totalIncome) > 250) {
+         System.out.println("big spender.");
+      } else {
+         System.out.println("spender.");
+      }
+      System.out.println("Your budget report is now finished!"); 
+   }
+   
+   public static double round2(double num) {
+      return (Math.round(num * 100.0) / 100.0);
+   } 
+}
+   
